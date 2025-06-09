@@ -19,24 +19,25 @@ class Network():
         number_of_addresses = ipv4utils.get_number_of_addresses(subnet_mask)
         number_of_useable_addresses = number_of_addresses -2
 
-        subnet["prefix"] = ".".join(str(octet) for octet in subnet_id) + "/" + str(subnet_mask)
-        subnet["first_useable_address"] = ".".join(str(octet) for octet in first_useable_address)
-        subnet["last_useable_address"] = ".".join(str(octet) for octet in last_useable_address)
-        subnet["broadcast_address"] = ".".join(str(octet) for octet in broadcast_address)
-        subnet["number_of_addresses"] = str(number_of_addresses)
-        subnet["number_of_useable_addresses"] = str(number_of_useable_addresses)
+        subnet["Prefix"] = ".".join(str(octet) for octet in subnet_id) + "/" + str(subnet_mask)
+        subnet["First useable address"] = ".".join(str(octet) for octet in first_useable_address)
+        subnet["Last useable address"] = ".".join(str(octet) for octet in last_useable_address)
+        subnet["Broadcast address"] = ".".join(str(octet) for octet in broadcast_address)
+        subnet["Number of addresses"] = str(number_of_addresses)
+        subnet["Number of useable addresses"] = str(number_of_useable_addresses)
 
         self.subnets.append(subnet)
-        self.required_addresses += int(subnet["number_of_addresses"])
+        self.required_addresses += int(subnet["Number of addresses"])
         ipv4utils.increment_address(self.start_of_free_address_space, number_of_addresses)
 
     def display_subnets(self):
-        i = 1
+        header = "\nSubnet prefix            First useable address    Last useable address     "
+        header += "Broadcast address        Number of addresses      Number of useable addresses"
+        line = "----------------------------------------------------------------------------"
+        line += "----------------------------------------------------------------------------"
+        print(header)
+        print(line)
         for subnet in self.subnets:
-            print(f"\nSubnet {i}")
-            print("--------")
-
-            for k, v in subnet.items():
-                print(f"{k}: {v}")
-            
-            i += 1
+            content = f"{subnet["Prefix"]:24} {subnet["First useable address"]:24} {subnet["Last useable address"]:24} "
+            content += f"{subnet["Broadcast address"]:24} {subnet["Number of addresses"]:24} {subnet["Number of useable addresses"]}"
+            print(content)
